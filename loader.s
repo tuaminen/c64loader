@@ -6,10 +6,10 @@
 ; PUCRUNCH depack by Pasi Ojala
 ; 1581/CMD FD/CMD HD information from Ninja & DocBacardi /The Dreams
 ; 2MHz 2-bit transfer delay code by MagerValp
-; Rest by Lasse Öörni
+; Rest by Lasse ï¿½ï¿½rni
 ;
 ; Thanks to K.M/TABOO for inspiration on badline detection and 1-bit transfer,
-; and Marko Mäkelä for his original irqloader.s (huge inspiration)
+; and Marko Mï¿½kelï¿½ for his original irqloader.s (huge inspiration)
 ;-------------------------------------------------------------------------------
 
                 processor 6502
@@ -1035,7 +1035,7 @@ chrcode jsr getval      ; Byte Code, X = 0
         cpx #32         ; 31-32 -> C clear, 32-32 -> C set..
         bcc 1$          ; 1..31, we got the right byte from the table
 
-        ; Ranks 32..64 (11111°xxxxx), get byte..
+        ; Ranks 32..64 (11111ï¿½xxxxx), get byte..
         txa             ; get back the value (5 valid bits)
         ldx #3
         jsr getbits     ; get 3 more bits to get a full byte, X = 0
@@ -1203,7 +1203,7 @@ slowopen_nameloop:
 ; FASTOPEN
 ;
 ; Opens a file with fastloader. Uses an asynchronous protocol inspired by
-; Marko Mäkelä's work when sending the filename.
+; Marko Mï¿½kelï¿½'s work when sending the filename.
 ;
 ; Parameters: -
 ; Returns: -
@@ -1570,6 +1570,17 @@ ifl_sendme:     lda ifl_mestring-1,x    ;Send M-E command (backwards)
                 jsr unlsn
 ifl_error:      jmp kernaloff
 
+
+;-------------------------------------------------------------------------------
+; M-W and M-E command strings
+;-------------------------------------------------------------------------------
+
+ifl_mwstring:   dc.b MW_LENGTH,$00,$00,"W-M"
+
+ifl_mestring:   dc.b >drvstart, <drvstart, "E-M"
+
+
+
 ;-------------------------------------------------------------------------------
 ; DRIVECODE - Code executed in the disk drive.
 ;-------------------------------------------------------------------------------
@@ -1839,14 +1850,6 @@ drvend:
                 endif
 
                 rend
-
-;-------------------------------------------------------------------------------
-; M-W and M-E command strings
-;-------------------------------------------------------------------------------
-
-ifl_mwstring:   dc.b MW_LENGTH,$00,$00,"W-M"
-
-ifl_mestring:   dc.b >drvstart, <drvstart, "E-M"
 
 ;-------------------------------------------------------------------------------
 ; Filename (in short name mode)
